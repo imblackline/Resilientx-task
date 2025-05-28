@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 import { useRepositories } from "@/composables/api/useRepositories";
 import RepositoryCardSkeleton from "@/components/Repositories/RepositoryCardSkeleton.vue";
 import RepositoryCard from "@/components/Repositories/RepositoryCard.vue";
@@ -21,12 +21,12 @@ const {
 } = useRepositories();
 
 const quickSearches = [
-  { label: 'Most Stars', value: 'stars:>1000' },
-  { label: 'Most Forks', value: 'forks:>100' },
-  { label: 'Recently Updated', value: 'pushed:>2024-01-01' },
-  { label: 'Most Popular Vue', value: 'stars:>1000 language:vue' },
-  { label: 'Most Popular React', value: 'stars:>1000 language:javascript' },
-  { label: 'Most Popular Python', value: 'stars:>1000 language:python' }
+  { label: "Most Stars", value: "stars:>1000" },
+  { label: "Most Forks", value: "forks:>100" },
+  { label: "Recently Updated", value: "pushed:>2024-01-01" },
+  { label: "Most Popular Vue", value: "stars:>1000 language:vue" },
+  { label: "Most Popular React", value: "stars:>1000 language:javascript" },
+  { label: "Most Popular Python", value: "stars:>1000 language:python" },
 ];
 
 const handleQuickSearch = (query) => {
@@ -36,16 +36,15 @@ const handleQuickSearch = (query) => {
 
 const handleSearch = async () => {
   await searchRepositories(searchQuery.value, 1);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 const handlePageChange = async (page) => {
   await searchRepositories(searchQuery.value, page);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 onMounted(async () => {
-  // Get initial page from URL or default to 1
   const initialPage = route.query.page ? parseInt(route.query.page) : 1;
   await searchRepositories(searchQuery.value, initialPage);
 });
@@ -67,8 +66,8 @@ onMounted(async () => {
         </span>
       </div>
       <div class="control">
-        <button 
-          class="button is-primary" 
+        <button
+          class="button is-primary"
           :class="{ 'is-loading': loading }"
           @click="handleSearch"
         >
@@ -78,8 +77,8 @@ onMounted(async () => {
     </div>
 
     <div class="is-flex is-justify-content-center is-flex-wrap-wrap mb-6">
-      <button 
-        v-for="query in quickSearches" 
+      <button
+        v-for="query in quickSearches"
         :key="query.label"
         class="tag is-small is-light mr-2 mb-2"
         @click="handleQuickSearch(query.value)"
@@ -97,7 +96,7 @@ onMounted(async () => {
         </div>
       </template>
 
-      <div v-else-if="error" class="column is-12 has-text-centered">
+      <div v-else-if="error" class="Erorr-container">
         <div class="notification is-danger">
           {{ error }}
         </div>
@@ -107,12 +106,7 @@ onMounted(async () => {
         <div class="notification is-warning">No repositories found.</div>
       </div>
 
-      <div
-        v-else
-        v-for="repo in repositories"
-        :key="repo.id"
-        class="mb-5"
-      >
+      <div v-else v-for="repo in repositories" :key="repo.id" class="mb-5">
         <div class="px-2">
           <RepositoryCard :repository="repo" />
         </div>
@@ -136,6 +130,7 @@ onMounted(async () => {
 .masonry-grid {
   column-count: 1;
   column-gap: 1.5rem;
+  position: relative;
 }
 
 /* Tablet */
@@ -161,5 +156,16 @@ onMounted(async () => {
 .field.has-addons {
   max-width: 600px;
   margin: 0 auto;
+}
+.Erorr-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
