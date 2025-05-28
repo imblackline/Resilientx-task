@@ -16,7 +16,9 @@
             {{ repository.owner.login }}
           </a>
         </p>
-        <p class="mb-2 has-text-break-word">{{ repository.description || "No description available" }}</p>
+        <p class="mb-2 has-text-break-word is-clipped has-text-grey">
+          {{ repository.description || "No description available" }}
+        </p>
         <div class="tags">
           <span v-if="repository.language" class="tag is-info">
             {{ repository.language }}
@@ -40,10 +42,21 @@ defineProps({
 
 <style scoped>
 .card {
-  background-color: var(--color-card-bg);
+  background-color: var(--bulma-scheme-main);
 }
+
 .has-text-break-word {
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+.is-clipped {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  max-height: 4.5em;
 }
 </style> 

@@ -20,6 +20,25 @@ const {
   searchRepositories,
 } = useRepositories();
 
+const quickSearches = [
+  { label: 'Most Stars', value: 'stars:>1000' },
+  { label: 'Most Forks', value: 'forks:>100' },
+  { label: 'Recently Updated', value: 'pushed:>2024-01-01' },
+  { label: 'Most Popular Vue', value: 'stars:>1000 language:vue' },
+  { label: 'Most Popular React', value: 'stars:>1000 language:javascript' },
+  { label: 'Most Popular Python', value: 'stars:>1000 language:python' }
+];
+
+const handleQuickSearch = (query) => {
+  searchQuery.value = query;
+  handleSearch();
+};
+
+const handleSearch = async () => {
+  await searchRepositories(searchQuery.value, 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 const handlePageChange = async (page) => {
   await searchRepositories(searchQuery.value, page);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -34,6 +53,41 @@ onMounted(async () => {
 
 <template>
   <div class="container mt-4">
+    <div class="field has-addons has-addons-centered mb-4">
+      <div class="control has-icons-left is-expanded">
+        <input
+          v-model="searchQuery"
+          class="input"
+          type="text"
+          placeholder="Search repositories..."
+          @keyup.enter="handleSearch"
+        />
+        <span class="icon is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+      <div class="control">
+        <button 
+          class="button is-primary" 
+          :class="{ 'is-loading': loading }"
+          @click="handleSearch"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div class="is-flex is-justify-content-center is-flex-wrap-wrap mb-6">
+      <button 
+        v-for="query in quickSearches" 
+        :key="query.label"
+        class="tag is-small is-light mr-2 mb-2"
+        @click="handleQuickSearch(query.value)"
+      >
+        {{ query.label }}
+      </button>
+    </div>
+
     <div class="masonry-grid">
       <template v-if="loading">
         <div v-for="n in 15" :key="n" class="mb-4">
@@ -102,5 +156,10 @@ onMounted(async () => {
   display: inline-block;
   width: 100%;
   break-inside: avoid;
+}
+
+.field.has-addons {
+  max-width: 600px;
+  margin: 0 auto;
 }
 </style>
