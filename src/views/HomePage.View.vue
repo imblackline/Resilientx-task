@@ -1,10 +1,9 @@
 <script setup>
-// import TheWelcome from '../components/TheWelcome.vue'
+import RepositoryList from '@/components/Repositories/RepositoryList.vue';
 </script>
 
 <template>
   <main>
-    <!-- <TheWelcome /> -->
-    <p>salam</p>
+    <RepositoryList />
   </main>
-</template>
+</template> 
