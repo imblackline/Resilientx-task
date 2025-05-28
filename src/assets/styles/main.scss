@@ -1,5 +1,5 @@
-@import './colors.scss';
-@import 'bulma/css/bulma.min.css';
+@use 'colors' as *;
+@use 'bulma/css/bulma.min.css' as *;
 
 
 body,
